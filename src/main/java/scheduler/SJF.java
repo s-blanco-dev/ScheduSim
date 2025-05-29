@@ -2,18 +2,14 @@ package scheduler;
 
 import algoritmos.Proceso;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-/**
- * Algoritmo de scheduling FCFS (First Come First Served)
- */
-
-public class FCFS implements IAlgoritmo {
-
+public class SJF implements IAlgoritmo{
     @Override
-     public List<Proceso> schedule(Queue<Proceso> colaProcesos) {
+   public List<Proceso> schedule(Queue<Proceso> colaProcesos) {
         List<Proceso> listaFinal = new LinkedList<>();
         Queue<Proceso> colaListos = new LinkedList<>();
         int tiempoActual = 0;
@@ -25,7 +21,7 @@ public class FCFS implements IAlgoritmo {
             }
 
             if (!colaListos.isEmpty()) {
-                Proceso actual = colaListos.peek();
+                Proceso actual = obtenerMasChico(colaListos);
                 /* Agrega hasta terminar rafaga */
                 for (int i = 0; i < actual.getRafaga(); i++) {
                     listaFinal.add(actual);
@@ -38,5 +34,14 @@ public class FCFS implements IAlgoritmo {
             }
         }
         return listaFinal;
+    }
+
+    private Proceso obtenerMasChico(Queue<Proceso> cola) {
+        Proceso chicuelo = cola
+                .stream()
+                .min(Comparator.comparing(Proceso::getRafaga))
+                .orElseThrow(NegativeArraySizeException::new);
+
+        return chicuelo;
     }
 }

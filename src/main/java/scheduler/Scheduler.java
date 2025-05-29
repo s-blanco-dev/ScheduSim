@@ -7,8 +7,6 @@ import java.util.Queue;
 
 public class Scheduler {
     private IAlgoritmo scheduler;
-    int tiempoActual;
-
     public void cambiarAlgoritmo(IAlgoritmo scheduler) {
         this.scheduler = scheduler;
     }
