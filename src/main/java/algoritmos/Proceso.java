@@ -41,4 +41,10 @@ public class Proceso {
     public String toString() {
         return nombre;
     }
+
+    public void decrementar(){
+        if (this.rafaga > 0) {
+            this.rafaga--;
+        }
+    }
 }

@@ -31,7 +31,7 @@ public class FCFS implements IAlgoritmo {
                     listaFinal.add(actual);
                 }
                 tiempoActual += actual.getRafaga();
-                colaListos.remove(); // elimino proceso completado
+                colaListos.remove(actual); // elimino proceso completado
             } else {
                 /* Si no hay procesongo listo, avanza el tiempo */
                 tiempoActual++;
