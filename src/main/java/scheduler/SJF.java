@@ -22,12 +22,14 @@ public class SJF implements IAlgoritmo{
 
             if (!colaListos.isEmpty()) {
                 Proceso actual = obtenerMasChico(colaListos);
+
                 /* Agrega hasta terminar rafaga */
                 for (int i = 0; i < actual.getRafaga(); i++) {
                     listaFinal.add(actual);
                 }
+
                 tiempoActual += actual.getRafaga();
-                colaListos.remove(); // elimino proceso completado
+                colaListos.remove(actual); // elimino proceso completado
             } else {
                 /* Si no hay procesongo listo, avanza el tiempo */
                 tiempoActual++;
@@ -37,9 +39,8 @@ public class SJF implements IAlgoritmo{
     }
 
     private Proceso obtenerMasChico(Queue<Proceso> cola) {
-        Proceso chicuelo = cola
-                .stream()
-                .min(Comparator.comparing(Proceso::getRafaga))
+        Proceso chicuelo = cola.stream()
+                .min(Comparator.comparingInt(Proceso::getRafaga))
                 .orElseThrow(NegativeArraySizeException::new);
 
         return chicuelo;
