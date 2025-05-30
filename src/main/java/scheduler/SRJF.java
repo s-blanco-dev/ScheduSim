@@ -16,7 +16,7 @@ public class SRJF implements IAlgoritmo{
 
         /* Mientras existan procesos esperando en la cola */
         while (!colaProcesos.isEmpty() || !colaListos.isEmpty()) {
-            while (!colaProcesos.isEmpty() && colaProcesos.peek().getLlegada() <= tiempoActual) {
+            while (!colaProcesos.isEmpty() && colaProcesos.peek().getLlegada() == tiempoActual) {
                 colaListos.add(colaProcesos.poll());
             }
 
@@ -24,7 +24,6 @@ public class SRJF implements IAlgoritmo{
                 Proceso actual = obtenerMasChico(colaListos);
 
                 /* Agrega hasta terminar rafaga */
-                for (int i = 0; i < actual.getRafaga(); i++) {
                     listaFinal.add(actual);
                     actual.decrementar();
                     tiempoActual ++;
@@ -34,7 +33,7 @@ public class SRJF implements IAlgoritmo{
                         break;
                     }
 
-                }
+
                 if (actual.getRafaga() == 0) {
                     colaListos.remove(actual); // elimino proceso completado
                 }
@@ -45,6 +44,10 @@ public class SRJF implements IAlgoritmo{
             }
         }
         return listaFinal;
+    }
+
+    private void agregarCola(){
+
     }
 
     private Proceso obtenerMasChico(Queue<Proceso> cola) {

@@ -16,7 +16,7 @@ public class SJF implements IAlgoritmo{
 
         /* Mientras existan procesos esperando en la cola */
         while (!colaProcesos.isEmpty() || !colaListos.isEmpty()) {
-            while (!colaProcesos.isEmpty() && colaProcesos.peek().getLlegada() <= tiempoActual) {
+            while (!colaProcesos.isEmpty() && colaProcesos.peek().getLlegada()<= tiempoActual) {
                 colaListos.add(colaProcesos.poll());
             }
 
