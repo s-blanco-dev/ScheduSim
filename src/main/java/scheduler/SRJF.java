@@ -46,10 +46,6 @@ public class SRJF implements IAlgoritmo{
         return listaFinal;
     }
 
-    private void agregarCola(){
-
-    }
-
     private Proceso obtenerMasChico(Queue<Proceso> cola) {
         Proceso chicuelo = cola.stream()
                 .min(Comparator.comparingInt(Proceso::getRafaga))
