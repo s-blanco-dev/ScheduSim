@@ -6,14 +6,12 @@ import java.util.List;
 import java.util.Queue;
 
 public class Scheduler {
-    private IScheduler scheduler;
-    int tiempoActual;
-
-    public void cambiarAlgoritmo(IScheduler scheduler) {
+    private IAlgoritmo scheduler;
+    public void cambiarAlgoritmo(IAlgoritmo scheduler) {
         this.scheduler = scheduler;
     }
 
-    public List<Proceso> schedule(Queue<Proceso> colaProcesos){
+    public List<Proceso> schedule(Queue<Proceso> colaProcesos) {
         return scheduler.schedule(colaProcesos);
     }
 }
