@@ -6,7 +6,7 @@ public class Proceso {
     private String nombre;
     private int rafaga;
     private int tiempo_llegada;
-    private Prioridad prioridad;
+    private int prioridad;
 
 
     public String getNombre() {
@@ -25,13 +25,13 @@ public class Proceso {
         return tiempo_llegada;
     }
 
-    public Prioridad getPrioridad(){
-        return prioridad;
+    public int getPrioridad(){
+        return this.prioridad;
     }
 
     // -------------------------------------------------------------------
 
-    public Proceso(String nombre, int rafaga, int llegada, Prioridad prioridad) {
+    public Proceso(String nombre, int rafaga, int llegada, int prioridad) {
         this.nombre = nombre;
         this.rafaga = rafaga;
         this.tiempo_llegada = llegada;
