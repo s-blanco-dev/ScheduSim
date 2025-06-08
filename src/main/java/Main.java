@@ -2,11 +2,12 @@ import algoritmos.Proceso;
 import scheduler.*;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) {
-        Proceso p1 = new Proceso("P1", 2, 0, 3);
+       /* Proceso p1 = new Proceso("P1", 2, 0, 3);
         Proceso p2 = new Proceso("P2",4, 0, 2);
         Proceso p3 = new Proceso("P3", 1, 2, 1);
 
@@ -17,10 +18,22 @@ public class Main {
         Scheduler scheduler = new Scheduler();
         scheduler.cambiarAlgoritmo(new Prioridad());
 
-        System.out.println(scheduler.schedule(cola));
+        System.out.println(scheduler.schedule(cola));*/
 
+        List<Proceso> procesos = List.of(
+                new Proceso("P1", 0, 5, 0),
+                new Proceso("P2", 2, 3, 0),
+                new Proceso("P3", 4, 6, 0)
+        );
+
+        Schedu schedule = new RRScheduler( 2);
+        Simulator sim = new Simulator(schedule, procesos);
+        sim.runAuto(1000); // 1000 ms entre ticks para ver los pasos
         // PLANIFICADOR MULTICOLAS UNIX
         // PLANIFICADOR LINUX
+        // TABLA DE TIEMPO
+        // PROCESOS EN TIEMPO REAL, AL AZAR
+        //
 
     }
 }
