@@ -1,68 +1,80 @@
 package scheduler;
 
 import algoritmos.Proceso;
-import java.util.Comparator;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class RoundRobin implements IAlgoritmo {
-
+public class RoundRobin implements Scheduler {
+    private Queue<Proceso> readyQueue = new LinkedList<>();
+    private List<Proceso> finishedProcesses = new ArrayList<>();
     private int quantum;
+    private int quantumCounter = 0;
+    private Proceso actual = null;
 
     public RoundRobin(int quantum) {
         this.quantum = quantum;
     }
 
     @Override
-    public List<Proceso> schedule(Queue<Proceso> colaProcesos) {
-        List<Proceso> listaFinal = new LinkedList<>();
-        Queue<Proceso> colaListos = new LinkedList<>();
-        int tiempoActual = 0;
-
-        while (!colaProcesos.isEmpty() || !colaListos.isEmpty()) {
-
-            // Agregar todos los procesos que ya llegaron a la cola
-            while (!colaProcesos.isEmpty() && colaProcesos.peek().getLlegada() <= tiempoActual) {
-                colaListos.add(colaProcesos.poll());
-            }
-
-            if (!colaListos.isEmpty()) {
-                Proceso actual = colaListos.poll();
-                int tiempoEjecutado = 0;
-
-                // Ejecutar hasta terminar quantum o hasta que el proceso se derrita
-                while (tiempoEjecutado < quantum && actual.getRafaga() > 0) {
-                    listaFinal.add(actual);
-                    actual.decrementar();
-                    tiempoEjecutado++;
-                    tiempoActual++;
-
-                    // Me fijo si llegó algo nuevo
-                    while (!colaProcesos.isEmpty() && colaProcesos.peek().getLlegada() <= tiempoActual) {
-                        colaListos.add(colaProcesos.poll());
-                    }
-                }
-
-                // Si no terminó, vuelve a la cola
-                if (actual.getRafaga() > 0) {
-                    colaListos.add(actual);
-                }
-            } else {
-                tiempoActual++;
-            }
-        }
-
-        return listaFinal;
+    public void addProcess(Proceso p) {
+        readyQueue.offer(p);
     }
 
+    @Override
+    public Proceso selectNextProcess(int tick) {
+        // Si el actual terminó o agotó el quantum, cambiar
+        if (actual == null || actual.estaTerminado() || quantumCounter >= quantum) {
+            if (actual != null && !actual.estaTerminado()) {
+                readyQueue.offer(actual);
+            }
+            actual = readyQueue.poll();
+            quantumCounter = 0;
+        }
+        return actual;
+    }
 
+    @Override
+    public void removeProcess(Proceso p) {
+        finishedProcesses.add(p);
+        if (actual == p) {
+            actual = null;
+        }
+    }
 
-    private Proceso obtenerMasChico(Queue<Proceso> cola) {
-        Proceso chicuelo = cola.stream()
-                .min(Comparator.comparingInt(Proceso::getRafaga))
-                .orElseThrow(NegativeArraySizeException::new);
+    @Override
+    public void reset() {
+        readyQueue.clear();
+        finishedProcesses.clear();
+        actual = null;
+        quantumCounter = 0;
+    }
 
-        return chicuelo;
+    @Override
+    public boolean isDone() {
+        return readyQueue.isEmpty() && actual == null;
+    }
+
+    @Override
+    public void tick() {
+        if (actual != null) {
+            actual.decrementar();
+            quantumCounter++;
+            if (actual.estaTerminado()) {
+                removeProcess(actual);
+            }
+        }
+    }
+
+    @Override
+    public List<Proceso> getReadyQueue() {
+        return new ArrayList<>(readyQueue);
+    }
+
+    @Override
+    public List<Proceso> getFinishedProcesses() {
+        return finishedProcesses;
     }
 }

@@ -1,4 +1,4 @@
-package scheduler;
+package legacy;
 
 import algoritmos.Proceso;
 

@@ -1,9 +1,7 @@
 import algoritmos.Proceso;
 import scheduler.*;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,10 +22,10 @@ public class Main {
                 new Proceso("P1", 0, 5, 0),
                 new Proceso("P2", 2, 3, 0),
                 new Proceso("P3", 4, 6, 0),
-                new Proceso("P3", 6, 2, 0)
+                new Proceso("P4", 1, 6, 0)
         );
 
-        Schedu schedule = new RRScheduler( 2);
+        Scheduler schedule = new RoundRobin( 2);
         Simulator sim = new Simulator(schedule, procesos);
         sim.runAuto(1000); // 1000 ms entre ticks para ver los pasos
         // PLANIFICADOR MULTICOLAS UNIX

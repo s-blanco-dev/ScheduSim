@@ -1,4 +1,4 @@
-package scheduler;
+package legacy;
 
 import algoritmos.Proceso;
 
@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class SJF implements IAlgoritmo{
+public class SJF implements IAlgoritmo {
     @Override
    public List<Proceso> schedule(Queue<Proceso> colaProcesos) {
         List<Proceso> listaFinal = new LinkedList<>();

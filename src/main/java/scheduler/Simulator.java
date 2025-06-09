@@ -9,13 +9,13 @@ import java.util.List;
 
 
 public class Simulator {
-    private Schedu scheduler;
+    private Scheduler scheduler;
     private List<Proceso> allProcesses;
     private int tick = 0;
     private Proceso current = null;
     private boolean isRunning = false;
 
-    public Simulator(Schedu scheduler, List<Proceso> procesos) {
+    public Simulator(Scheduler scheduler, List<Proceso> procesos) {
         this.scheduler = scheduler;
         this.allProcesses = new ArrayList<>(procesos);
     }

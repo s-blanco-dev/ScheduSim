@@ -1,4 +1,4 @@
-package scheduler;
+package legacy;
 
 import algoritmos.Proceso;
 
@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class Prioridad implements IAlgoritmo{
+public class SRJF implements IAlgoritmo {
     @Override
     public List<Proceso> schedule(Queue<Proceso> colaProcesos) {
         List<Proceso> listaFinal = new LinkedList<>();
@@ -28,10 +28,11 @@ public class Prioridad implements IAlgoritmo{
                     actual.decrementar();
                     tiempoActual ++;
 
-                if (obtenerMasChico(colaListos).getRafaga() < actual.getRafaga()){
-                    colaListos.add(actual);
-                    break;
-                }
+                    if (obtenerMasChico(colaListos).getRafaga() < actual.getRafaga()){
+                        colaListos.add(actual);
+                        break;
+                    }
+
 
                 if (actual.getRafaga() == 0) {
                     colaListos.remove(actual); // elimino proceso completado
@@ -47,7 +48,7 @@ public class Prioridad implements IAlgoritmo{
 
     private Proceso obtenerMasChico(Queue<Proceso> cola) {
         Proceso chicuelo = cola.stream()
-                .min(Comparator.comparingInt(Proceso::getPrioridad))
+                .min(Comparator.comparingInt(Proceso::getRafaga))
                 .orElseThrow(NegativeArraySizeException::new);
 
         return chicuelo;
