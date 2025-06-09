@@ -87,9 +87,9 @@ public class Simulator {
     }
 
     public void reset() {
-        tick = 0;
-        current = null;
-        scheduler.reset();
+        this.tick = 0;
+        this.current = null;
+        this.scheduler.reset();
     }
 
     public boolean isSimulationDone() {

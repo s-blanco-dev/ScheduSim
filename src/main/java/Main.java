@@ -23,7 +23,8 @@ public class Main {
         List<Proceso> procesos = List.of(
                 new Proceso("P1", 0, 5, 0),
                 new Proceso("P2", 2, 3, 0),
-                new Proceso("P3", 4, 6, 0)
+                new Proceso("P3", 4, 6, 0),
+                new Proceso("P3", 6, 2, 0)
         );
 
         Schedu schedule = new RRScheduler( 2);

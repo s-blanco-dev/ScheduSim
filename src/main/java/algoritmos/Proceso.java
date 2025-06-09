@@ -17,13 +17,26 @@ public class Proceso {
         this.rafagaRestante = rafaga;
     }
 
-    public String getPid() { return pid; }
-    public int getLlegada() { return llegada; }
-    public int getRafaga() { return rafaga; }
-    public int getRafagaRestante() { return rafagaRestante; }
+    public String getPid() {
+        return pid;
+    }
+
+    public int getLlegada() {
+        return llegada;
+    }
+
+    public int getRafaga() {
+        return rafaga;
+    }
+
+    public int getRafagaRestante() {
+        return rafagaRestante;
+    }
 
     public void decrementar() {
-        if (rafagaRestante > 0) rafagaRestante--;
+        if (rafagaRestante > 0){
+            rafagaRestante--;
+        }
     }
 
     public boolean estaTerminado() {
@@ -38,4 +51,5 @@ public class Proceso {
     public int getPrioridad() {
         return prioridad;
     }
+
 }

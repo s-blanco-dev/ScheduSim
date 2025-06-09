@@ -12,6 +12,5 @@ public interface Schedu {
     public boolean isDone();
     public void tick();
     public List<Proceso> getReadyQueue();
-
     public List<Proceso> getFinishedProcesses();
 }

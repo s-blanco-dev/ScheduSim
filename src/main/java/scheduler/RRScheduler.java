@@ -39,7 +39,9 @@ public class RRScheduler implements Schedu{
     @Override
     public void removeProcess(Proceso p) {
         finishedProcesses.add(p);
-        if (actual == p) actual = null;
+        if (actual == p) {
+            actual = null;
+        }
     }
 
     @Override
