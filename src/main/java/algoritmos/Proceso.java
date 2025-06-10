@@ -40,7 +40,7 @@ public class Proceso {
     }
 
     public boolean estaTerminado() {
-        return rafagaRestante <= 0;
+        return rafagaRestante == 0;
     }
 
     @Override

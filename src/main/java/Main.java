@@ -19,15 +19,14 @@ public class Main {
         System.out.println(scheduler.schedule(cola));*/
 
         List<Proceso> procesos = List.of(
-                new Proceso("P1", 0, 5, 0),
-                new Proceso("P2", 2, 3, 0),
-                new Proceso("P3", 4, 6, 0),
-                new Proceso("P4", 1, 6, 0)
+                new Proceso("P1", 0, 4, 3),
+                new Proceso("P2", 2, 2, 2),
+                new Proceso("P3", 3, 6, 1)
         );
 
-        Scheduler schedule = new RoundRobin( 2);
+        Scheduler schedule = new Prioridad();
         Simulator sim = new Simulator(schedule, procesos);
-        sim.runAuto(1000); // 1000 ms entre ticks para ver los pasos
+        sim.runAuto(0); // 1000 ms entre ticks para ver los pasos
         // PLANIFICADOR MULTICOLAS UNIX
         // PLANIFICADOR LINUX
         // TABLA DE TIEMPO

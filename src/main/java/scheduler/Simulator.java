@@ -14,6 +14,8 @@ public class Simulator {
     private int tick = 0;
     private Proceso current = null;
     private boolean isRunning = false;
+    private List<String> ejecucionCpu = new ArrayList<>();
+
 
     public Simulator(Scheduler scheduler, List<Proceso> procesos) {
         this.scheduler = scheduler;
@@ -44,6 +46,7 @@ public class Simulator {
 
     // Ejecutar un tick
     scheduler.tick();
+    ejecucionCpu.add(current != null ? current.getPid() : "IDLE");
 
     displayState();
 
@@ -80,9 +83,12 @@ public class Simulator {
             }
         }
         System.out.println("✅ Listo el pollo.");
+        System.out.println("📝 Historial de ejecución en CPU:");
+        System.out.println(String.join(", ", ejecucionCpu));
     }
 
     public void stop() {
+
         isRunning = false;
     }
 

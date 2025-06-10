@@ -13,4 +13,5 @@ public interface Scheduler {
     public void tick();
     public List<Proceso> getReadyQueue();
     public List<Proceso> getFinishedProcesses();
+
 }
