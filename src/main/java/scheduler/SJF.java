@@ -61,12 +61,12 @@ public class SJF implements Scheduler {
     }
 
     @Override
-    public List<Proceso> getReadyQueue() {
+    public List<Proceso> getColaListos() {
         return new ArrayList<>(readyQueue);
     }
 
     @Override
-    public List<Proceso> getFinishedProcesses() {
+    public List<Proceso> getProcesosTerminados() {
         return finishedProcesses;
     }
 }

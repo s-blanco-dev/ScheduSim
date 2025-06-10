@@ -3,7 +3,9 @@ package scheduler;
 import algoritmos.Proceso;
 
 import java.util.*;
-
+/**
+ * Modelo de prioridad APROPIATIVA
+ */
 public class Prioridad implements Scheduler {
     private Queue<Proceso> readyQueue = new LinkedList<>();
     private List<Proceso> finishedProcesses = new ArrayList<>();
@@ -17,20 +19,31 @@ public class Prioridad implements Scheduler {
     @Override
     public Proceso selectNextProcess(int tick) {
         if (actual != null && !actual.estaTerminado()) {
-            readyQueue.offer(actual); // Volvemos a meter el proceso actual para reevaluarlo
-        }
-
-        if (!readyQueue.isEmpty()) {
-            // Seleccionar el de mayor prioridad (menor número)
-            actual = readyQueue.stream()
+            // ¿Hay alguno en readyQueue con prioridad estrictamente menor?
+            Proceso candidato = readyQueue.stream()
                     .min(Comparator.comparingInt(Proceso::getPrioridad))
-                    .stream().min(Comparator.comparingInt(Proceso::getRafagaRestante))
                     .orElse(null);
 
-            readyQueue.remove(actual); // Sacamos el nuevo de la cola
+            if (candidato != null && candidato.getPrioridad() < actual.getPrioridad()) {
+                readyQueue.offer(actual); // Se preempte al actual
+                actual = candidato;
+                readyQueue.remove(candidato);
+            }
+            // Si no, continúa el actual
         } else {
-            actual = null;
+            // Si actual terminó o no existe, elegimos el mejor disponible
+            actual = readyQueue.stream()
+                    .min(Comparator.comparingInt(Proceso::getPrioridad))
+                    .orElse(null);
+            if (actual != null) {
+                readyQueue.remove(actual);
+            }
         }
+        return actual;
+    }
+
+
+    public Proceso getActual() {
         return actual;
     }
 
@@ -65,12 +78,14 @@ public class Prioridad implements Scheduler {
     }
 
     @Override
-    public List<Proceso> getReadyQueue() {
+    public List<Proceso> getColaListos() {
         return new ArrayList<>(readyQueue);
     }
 
     @Override
-    public List<Proceso> getFinishedProcesses() {
-        return finishedProcesses;
+    public List<Proceso> getProcesosTerminados() {
+        return new ArrayList<>(finishedProcesses);
     }
+
+
 }

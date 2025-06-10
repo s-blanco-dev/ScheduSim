@@ -3,6 +3,7 @@ package scheduler;
 import algoritmos.Proceso;
 
 import java.util.List;
+import java.util.Queue;
 
 public interface Scheduler {
     public void addProcess(Proceso p);
@@ -11,7 +12,6 @@ public interface Scheduler {
     public void reset();
     public boolean isDone();
     public void tick();
-    public List<Proceso> getReadyQueue();
-    public List<Proceso> getFinishedProcesses();
-
+    public List<Proceso> getColaListos();
+    public List<Proceso> getProcesosTerminados();
 }

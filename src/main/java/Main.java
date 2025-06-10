@@ -19,12 +19,12 @@ public class Main {
         System.out.println(scheduler.schedule(cola));*/
 
         List<Proceso> procesos = List.of(
-                new Proceso("P1", 0, 4, 3),
-                new Proceso("P2", 1, 2, 2),
-                new Proceso("P3", 3, 6, 1)
+                new Proceso("A", 0, 6, 3),
+                new Proceso("B", 1, 3, 2),
+                new Proceso("C", 2, 8, 1)
         );
 
-        Scheduler schedule = new Prioridad();
+        Scheduler schedule = new MLFQ();
         Simulator sim = new Simulator(schedule, procesos);
         sim.runAuto(0); // 1000 ms entre ticks para ver los pasos
         // PLANIFICADOR MULTICOLAS UNIX

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Queue;
 
 public class RoundRobin implements Scheduler {
-    private Queue<Proceso> readyQueue = new LinkedList<>();
-    private List<Proceso> finishedProcesses = new ArrayList<>();
+    private Queue<Proceso> colaListos = new LinkedList<>();
+    private List<Proceso> procesosTerminados = new ArrayList<>();
     private int quantum;
     private int quantumCounter = 0;
     private Proceso actual = null;
@@ -20,7 +20,7 @@ public class RoundRobin implements Scheduler {
 
     @Override
     public void addProcess(Proceso p) {
-        readyQueue.offer(p);
+        colaListos.offer(p);
     }
 
     @Override
@@ -28,9 +28,9 @@ public class RoundRobin implements Scheduler {
         // Si el actual terminó o agotó el quantum, cambiar
         if (actual == null || actual.estaTerminado() || quantumCounter >= quantum) {
             if (actual != null && !actual.estaTerminado()) {
-                readyQueue.offer(actual);
+                colaListos.offer(actual);
             }
-            actual = readyQueue.poll();
+            actual = colaListos.poll();
             quantumCounter = 0;
         }
         return actual;
@@ -38,7 +38,7 @@ public class RoundRobin implements Scheduler {
 
     @Override
     public void removeProcess(Proceso p) {
-        finishedProcesses.add(p);
+        procesosTerminados.add(p);
         if (actual == p) {
             actual = null;
         }
@@ -46,15 +46,15 @@ public class RoundRobin implements Scheduler {
 
     @Override
     public void reset() {
-        readyQueue.clear();
-        finishedProcesses.clear();
+        colaListos.clear();
+        procesosTerminados.clear();
         actual = null;
         quantumCounter = 0;
     }
 
     @Override
     public boolean isDone() {
-        return readyQueue.isEmpty() && actual == null;
+        return colaListos.isEmpty() && actual == null;
     }
 
     @Override
@@ -69,12 +69,12 @@ public class RoundRobin implements Scheduler {
     }
 
     @Override
-    public List<Proceso> getReadyQueue() {
-        return new ArrayList<>(readyQueue);
+    public List<Proceso> getColaListos() {
+        return new ArrayList<>(colaListos);
     }
 
     @Override
-    public List<Proceso> getFinishedProcesses() {
-        return finishedProcesses;
+    public List<Proceso> getProcesosTerminados() {
+        return procesosTerminados;
     }
 }

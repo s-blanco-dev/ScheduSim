@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+
 public class Prioridad implements IAlgoritmo{
     @Override
     public List<Proceso> schedule(Queue<Proceso> colaProcesos) {

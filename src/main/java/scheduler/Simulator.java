@@ -3,9 +3,7 @@ package scheduler;
 
 import algoritmos.Proceso;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 public class Simulator {
@@ -37,7 +35,7 @@ public class Simulator {
     Proceso next = scheduler.selectNextProcess(tick);
 
     if (next != current) {
-        log("Cambio de contexto: " +
+        log("⚠\uFE0F Cambio de contexto: " +
             (current != null ? current.getPid() : "Ninguno") +
             " → " +
             (next != null ? next.getPid() : "Ninguno"));
@@ -58,16 +56,30 @@ public class Simulator {
     }
 
     private void displayState() {
-        System.out.println("[Tick " + tick + "] → CPU: " + (current != null ? current.getPid() : "IDLE"));
-        System.out.print("→ Cola de listos: ");
-        List<Proceso> cola = scheduler.getReadyQueue();
-        if (cola.isEmpty()) {
-            System.out.print("vacía");
+        System.out.println("--------------------------------------------------");
+        System.out.println("[Tick " + tick + "] → CPU: " + (current != null ? current : "IDLE"));
+        System.out.println("--------------------------------------------------");
+
+        if (scheduler instanceof MLFQ) {
+            System.out.println("--------------------------------------------------");
+            System.out.print("→ Cola 0: ");
+            System.out.println(Arrays.toString(((MLFQ)scheduler).getColas().get(0).toArray()));
+            System.out.print("→ Cola 1: ");
+            System.out.println(Arrays.toString(((MLFQ)scheduler).getColas().get(1).toArray()));
+            System.out.print("→ Cola 2: ");
+            System.out.println(Arrays.toString(((MLFQ)scheduler).getColas().get(2).toArray()));
+            System.out.println("--------------------------------------------------");
         } else {
-           System.out.println(cola);
+            System.out.print("→ Cola de listos: ");
+            List<Proceso> cola = scheduler.getColaListos();
+            if (cola.isEmpty()) {
+                System.out.print("vacía");
+            } else {
+                System.out.println(cola);
+            }
         }
         System.out.println();
-        System.out.println("→ Terminados: " + scheduler.getFinishedProcesses());
+        System.out.println("→ Terminados: " + scheduler.getProcesosTerminados());
         System.out.println("--------------------------------------------------");
     }
 
