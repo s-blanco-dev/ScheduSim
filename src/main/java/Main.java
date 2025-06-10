@@ -20,7 +20,7 @@ public class Main {
 
         List<Proceso> procesos = List.of(
                 new Proceso("P1", 0, 4, 3),
-                new Proceso("P2", 2, 2, 2),
+                new Proceso("P2", 1, 2, 2),
                 new Proceso("P3", 3, 6, 1)
         );
 

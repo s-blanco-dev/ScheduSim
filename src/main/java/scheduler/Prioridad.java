@@ -33,6 +33,11 @@ public class Prioridad implements Scheduler {
         return actual;
     }
 
+
+    public Proceso getActual() {
+        return actual;
+    }
+
     @Override
     public void removeProcess(Proceso p) {
         finishedProcesses.add(p);

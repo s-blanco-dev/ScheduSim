@@ -15,6 +15,7 @@ public class Proceso {
         this.llegada = llegada;
         this.rafaga = rafaga;
         this.rafagaRestante = rafaga;
+        this.prioridad = prioridad;
     }
 
     public String getPid() {
