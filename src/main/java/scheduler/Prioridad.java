@@ -24,17 +24,13 @@ public class Prioridad implements Scheduler {
             // Seleccionar el de mayor prioridad (menor número)
             actual = readyQueue.stream()
                     .min(Comparator.comparingInt(Proceso::getPrioridad))
-                    .orElseThrow(NegativeArraySizeException::new);
+                    .stream().min(Comparator.comparingInt(Proceso::getRafagaRestante))
+                    .orElse(null);
 
             readyQueue.remove(actual); // Sacamos el nuevo de la cola
         } else {
             actual = null;
         }
-        return actual;
-    }
-
-
-    public Proceso getActual() {
         return actual;
     }
 
