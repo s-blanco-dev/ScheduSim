@@ -5,13 +5,13 @@ import algoritmos.Proceso;
 import java.util.List;
 import java.util.Queue;
 
-public class Scheduler {
-    private IAlgoritmo scheduler;
-    public void cambiarAlgoritmo(IAlgoritmo scheduler) {
-        this.scheduler = scheduler;
-    }
-
-    public List<Proceso> schedule(Queue<Proceso> colaProcesos) {
-        return scheduler.schedule(colaProcesos);
-    }
+public interface Scheduler {
+    public void addProcess(Proceso p);
+    public Proceso selectNextProcess(int  tick);
+    public void removeProcess(Proceso p);
+    public void reset();
+    public boolean isDone();
+    public void tick();
+    public List<Proceso> getColaListos();
+    public List<Proceso> getProcesosTerminados();
 }

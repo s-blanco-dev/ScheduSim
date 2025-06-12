@@ -2,55 +2,71 @@ package scheduler;
 
 import algoritmos.Proceso;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
-public class SRJF implements IAlgoritmo{
+public class SRJF implements Scheduler {
+    private Queue<Proceso> readyQueue = new LinkedList<>();
+    private List<Proceso> finishedProcesses = new ArrayList<>();
+    private Proceso actual = null;
+
     @Override
-    public List<Proceso> schedule(Queue<Proceso> colaProcesos) {
-        List<Proceso> listaFinal = new LinkedList<>();
-        Queue<Proceso> colaListos = new LinkedList<>();
-        int tiempoActual = 0;
-
-        /* Mientras existan procesos esperando en la cola */
-        while (!colaProcesos.isEmpty() || !colaListos.isEmpty()) {
-            while (!colaProcesos.isEmpty() && colaProcesos.peek().getLlegada() == tiempoActual) {
-                colaListos.add(colaProcesos.poll());
-            }
-
-            if (!colaListos.isEmpty()) {
-                Proceso actual = obtenerMasChico(colaListos);
-
-                /* Agrega hasta terminar rafaga */
-                    listaFinal.add(actual);
-                    actual.decrementar();
-                    tiempoActual ++;
-
-                    if (obtenerMasChico(colaListos).getRafaga() < actual.getRafaga()){
-                        colaListos.add(actual);
-                        break;
-                    }
-
-
-                if (actual.getRafaga() == 0) {
-                    colaListos.remove(actual); // elimino proceso completado
-                }
-            } else {
-                /* Si no hay procesongo listo, avanza el tie
-                mpo */
-                tiempoActual++;
-            }
-        }
-        return listaFinal;
+    public void addProcess(Proceso p) {
+        readyQueue.offer(p);
     }
 
-    private Proceso obtenerMasChico(Queue<Proceso> cola) {
-        Proceso chicuelo = cola.stream()
-                .min(Comparator.comparingInt(Proceso::getRafaga))
-                .orElseThrow(NegativeArraySizeException::new);
+    @Override
+    public Proceso selectNextProcess(int tick) {
+        if (actual != null && !actual.estaTerminado()) {
+                readyQueue.offer(actual);
+        }
+        if (!readyQueue.isEmpty()) {
+            actual = readyQueue.stream()
+                    .min(Comparator.comparingInt(Proceso::getRafaga))
+                    .orElse(null);
+            readyQueue.remove(actual);
+        } else {
+            actual = null;
+        }
+        return actual;
+    }
 
-        return chicuelo;
+    @Override
+    public void removeProcess(Proceso p) {
+        finishedProcesses.add(p);
+        if (actual == p) {
+            actual = null;
+        }
+    }
+
+    @Override
+    public void reset() {
+        readyQueue.clear();
+        finishedProcesses.clear();
+        actual = null;
+    }
+
+    @Override
+    public boolean isDone() {
+        return readyQueue.isEmpty() && actual == null;
+    }
+
+    @Override
+    public void tick() {
+        if (actual != null) {
+            actual.decrementar();
+            if (actual.estaTerminado()) {
+                removeProcess(actual);
+            }
+        }
+    }
+
+    @Override
+    public List<Proceso> getColaListos() {
+        return new ArrayList<>(readyQueue);
+    }
+
+    @Override
+    public List<Proceso> getProcesosTerminados() {
+        return finishedProcesses;
     }
 }

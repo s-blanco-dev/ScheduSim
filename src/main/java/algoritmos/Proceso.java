@@ -2,49 +2,55 @@ package algoritmos;
 
 import enums.Prioridad;
 
+
 public class Proceso {
-    private String nombre;
+    private String pid;
+    private int llegada;
     private int rafaga;
-    private int tiempo_llegada;
-    private Prioridad prioridad;
+    private int prioridad;
+    private int rafagaRestante;
 
+    public Proceso(String pid, int llegada, int rafaga, int prioridad) {
+        this.pid = pid;
+        this.llegada = llegada;
+        this.rafaga = rafaga;
+        this.rafagaRestante = rafaga;
+        this.prioridad = prioridad;
+    }
 
-    public String getNombre() {
-        return nombre;
+    public String getPid() {
+        return pid;
+    }
+
+    public int getLlegada() {
+        return llegada;
     }
 
     public int getRafaga() {
         return rafaga;
     }
 
-    public void setRafaga(int raf) {
-        this.rafaga = raf;
+    public int getRafagaRestante() {
+        return rafagaRestante;
     }
 
-    public int getLlegada() {
-        return tiempo_llegada;
+    public void decrementar() {
+        if (rafagaRestante > 0){
+            rafagaRestante--;
+        }
     }
 
-    public Prioridad getPrioridad(){
+    public boolean estaTerminado() {
+        return rafagaRestante == 0;
+    }
+
+    @Override
+    public String toString() {
+        return pid + " [" + rafagaRestante + "/" + rafaga + "]";
+    }
+
+    public int getPrioridad() {
         return prioridad;
     }
 
-    // -------------------------------------------------------------------
-
-    public Proceso(String nombre, int rafaga, int llegada, Prioridad prioridad) {
-        this.nombre = nombre;
-        this.rafaga = rafaga;
-        this.tiempo_llegada = llegada;
-        this.prioridad = prioridad;
-    }
-
-    public String toString() {
-        return nombre;
-    }
-
-    public void decrementar(){
-        if (this.rafaga > 0) {
-            this.rafaga--;
-        }
-    }
 }

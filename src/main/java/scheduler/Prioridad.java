@@ -2,12 +2,11 @@ package scheduler;
 
 import algoritmos.Proceso;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
-public class FCFS implements Scheduler {
+import java.util.*;
+/**
+ * Modelo de prioridad APROPIATIVA
+ */
+public class Prioridad implements Scheduler {
     private Queue<Proceso> readyQueue = new LinkedList<>();
     private List<Proceso> finishedProcesses = new ArrayList<>();
     private Proceso actual = null;
@@ -19,13 +18,32 @@ public class FCFS implements Scheduler {
 
     @Override
     public Proceso selectNextProcess(int tick) {
-        // Si el actual terminó o agotó el quantum, cambiar
-        if (actual == null || actual.estaTerminado()) {
-            if (actual != null && !actual.estaTerminado()) {
-                readyQueue.offer(actual);
+        if (actual != null && !actual.estaTerminado()) {
+            // ¿Hay alguno en readyQueue con prioridad estrictamente menor?
+            Proceso candidato = readyQueue.stream()
+                    .min(Comparator.comparingInt(Proceso::getPrioridad))
+                    .orElse(null);
+
+            if (candidato != null && candidato.getPrioridad() < actual.getPrioridad()) {
+                readyQueue.offer(actual); // Se preempte al actual
+                actual = candidato;
+                readyQueue.remove(candidato);
             }
-            actual = readyQueue.poll();
+            // Si no, continúa el actual
+        } else {
+            // Si actual terminó o no existe, elegimos el mejor disponible
+            actual = readyQueue.stream()
+                    .min(Comparator.comparingInt(Proceso::getPrioridad))
+                    .orElse(null);
+            if (actual != null) {
+                readyQueue.remove(actual);
+            }
         }
+        return actual;
+    }
+
+
+    public Proceso getActual() {
         return actual;
     }
 
@@ -66,6 +84,8 @@ public class FCFS implements Scheduler {
 
     @Override
     public List<Proceso> getProcesosTerminados() {
-        return finishedProcesses;
+        return new ArrayList<>(finishedProcesses);
     }
+
+
 }
