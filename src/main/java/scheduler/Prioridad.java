@@ -10,6 +10,7 @@ public class Prioridad implements Scheduler {
     private Queue<Proceso> readyQueue = new LinkedList<>();
     private List<Proceso> finishedProcesses = new ArrayList<>();
     private Proceso actual = null;
+    private int tick = 0;
 
     @Override
     public void addProcess(Proceso p) {
@@ -50,6 +51,7 @@ public class Prioridad implements Scheduler {
     @Override
     public void removeProcess(Proceso p) {
         finishedProcesses.add(p);
+        p.settRetorno(tick - p.getLlegada());
         if (actual == p) {
             actual = null;
         }
@@ -69,6 +71,12 @@ public class Prioridad implements Scheduler {
 
     @Override
     public void tick() {
+        tick++;
+        for (Proceso p : readyQueue) {
+            p.aumentarTiempoEspera();
+        }
+
+
         if (actual != null) {
             actual.decrementar();
             if (actual.estaTerminado()) {

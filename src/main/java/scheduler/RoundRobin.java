@@ -13,6 +13,7 @@ public class RoundRobin implements Scheduler {
     private int quantum;
     private int quantumCounter = 0;
     private Proceso actual = null;
+    private int tick = 0;
 
     public RoundRobin(int quantum) {
         this.quantum = quantum;
@@ -39,6 +40,7 @@ public class RoundRobin implements Scheduler {
     @Override
     public void removeProcess(Proceso p) {
         procesosTerminados.add(p);
+        p.settRetorno(tick - p.getLlegada());
         if (actual == p) {
             actual = null;
         }
@@ -59,6 +61,11 @@ public class RoundRobin implements Scheduler {
 
     @Override
     public void tick() {
+        tick++;
+        for (Proceso p : colaListos) {
+            p.aumentarTiempoEspera();
+        }
+
         if (actual != null) {
             actual.decrementar();
             quantumCounter++;

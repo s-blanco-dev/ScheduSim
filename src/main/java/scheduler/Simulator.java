@@ -62,13 +62,12 @@ public class Simulator {
 
         if (scheduler instanceof MLFQ) {
             System.out.println("--------------------------------------------------");
-            System.out.print("→ Cola 0: ");
-            System.out.println(Arrays.toString(((MLFQ)scheduler).getColas().get(0).toArray()));
-            System.out.print("→ Cola 1: ");
-            System.out.println(Arrays.toString(((MLFQ)scheduler).getColas().get(1).toArray()));
-            System.out.print("→ Cola 2: ");
-            System.out.println(Arrays.toString(((MLFQ)scheduler).getColas().get(2).toArray()));
-            System.out.println("--------------------------------------------------");
+            System.out.println("PLANIFICADOR SOLARIS:");
+            for (int i = 0; i < 3; i++) {
+                System.out.print("→ Cola " + i + ":");
+                System.out.println(Arrays.toString(((MLFQ)scheduler).getColas().get(i).toArray()));
+
+            }
         } else {
             System.out.print("→ Cola de listos: ");
             List<Proceso> cola = scheduler.getColaListos();
@@ -97,6 +96,10 @@ public class Simulator {
         System.out.println("✅ Listo el pollo.");
         System.out.println("📝 Historial de ejecución en CPU:");
         System.out.println(String.join(", ", ejecucionCpu));
+        System.out.println("TIEMPO ESPERA Y RETORNO:");
+        for (Proceso p : scheduler.getProcesosTerminados()) {
+            System.out.println(p + ": " + p.gettEspera() + " | " + p.gettRetorno());
+        }
     }
 
     public void stop() {

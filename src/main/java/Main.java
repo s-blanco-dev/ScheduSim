@@ -19,9 +19,9 @@ public class Main {
         System.out.println(scheduler.schedule(cola));*/
 
         List<Proceso> procesos = List.of(
-                new Proceso("A", 0, 6, 3),
-                new Proceso("B", 1, 3, 2),
-                new Proceso("C", 2, 8, 1)
+                new Proceso("P1", 0, 6, 3),
+                new Proceso("P2", 2, 4, 1),
+                new Proceso("P3", 4, 2, 2)
         );
 
         Scheduler schedule = new MLFQ();
