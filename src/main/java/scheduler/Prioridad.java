@@ -95,5 +95,9 @@ public class Prioridad implements Scheduler {
         return new ArrayList<>(finishedProcesses);
     }
 
+    @Override
+    public int getTick() {
+        return tick;
+    }
 
 }

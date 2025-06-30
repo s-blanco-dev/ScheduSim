@@ -197,4 +197,9 @@ import java.util.*;
         }
     }
 
+    @Override
+    public int getTick() {
+        return tick;
+    }
+
 }

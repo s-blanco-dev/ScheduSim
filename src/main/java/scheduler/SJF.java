@@ -76,4 +76,9 @@ public class SJF implements Scheduler {
     public List<Proceso> getProcesosTerminados() {
         return finishedProcesses;
     }
+
+    @Override
+    public int getTick() {
+        return tick;
+    }
 }
