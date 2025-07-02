@@ -60,6 +60,35 @@
                     </modules>
                 </configuration>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <executions>
+                    <execution>
+                        <id>create-installer</id>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <input>${project.build.directory}</input>
+                    <dest>${project.build.directory}/installer</dest>
+                    <name>ScheduSim</name>
+                    <mainClass>gui.SimulatorApp</mainClass>
+                    <mainJar>${project.build.finalName}.jar</mainJar>
+                    <javaOptions>
+                        <javaOption>--add-modules</javaOption>
+                        <javaOption>javafx.controls,javafx.fxml</javaOption>
+                    </javaOptions>
+                    <icon>src/main/resources/gui/icon.png</icon> <!-- opcional -->
+                    <type>APP_IMAGE</type> <!-- podés usar dmg, exe, deb, etc -->
+                </configuration>
+            </plugin>
+
         </plugins>
 
 

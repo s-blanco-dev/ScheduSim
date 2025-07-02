@@ -141,7 +141,7 @@ public class SimulatorApp extends Application {
         processInputSection.getChildren().addAll(pidField, llegadaField, duracionField, agregarProcesoBtn);
 
         // Configuration section
-        Label algorithmLabel = new Label("Algorithm:");
+        Label algorithmLabel = new Label("Algoritmo:");
         algorithmLabel.setStyle("""
             -fx-text-fill: #d79921;
             -fx-font-size: 16px;
@@ -223,7 +223,7 @@ public class SimulatorApp extends Application {
             salidaArea.appendText(generarEstadoTexto());
 
             if (simulator.isSimulationDone()) {
-                estadoLabel.setText("✅ Simulation Complete!");
+                estadoLabel.setText("✅ Listo el pollo!");
                 estadoLabel.setStyle(estadoLabel.getStyle().replace("#81C784", "#4CAF50"));
                 avanzarBtn.setDisable(true);
                 salidaArea.appendText("\n💾 Diagrama de ejecución:\n");
@@ -381,7 +381,7 @@ public class SimulatorApp extends Application {
             int llegada = Integer.parseInt(llegadaField.getText());
             int duracion = Integer.parseInt(duracionField.getText());
             procesos.add(new Proceso(pid, llegada, duracion, 0));
-            salidaArea.appendText("✅ Process added: " + pid + " (Arrival: " + llegada + ", Duration: " + duracion + ")\n");
+            salidaArea.appendText("✅ Proceso agregado: " + pid + " (Llegada: " + llegada + ", Rafaga: " + duracion + ")\n");
             pidField.clear();
             llegadaField.clear();
             duracionField.clear();
@@ -427,7 +427,7 @@ public class SimulatorApp extends Application {
         estadoLabel.setText("🔄 Ejecutando simulación...");
         estadoLabel.setStyle(estadoLabel.getStyle().replace("#81C784", "#FF9800"));
         salidaArea.clear();
-        salidaArea.appendText("🚀 Simulación iniciada con algoritmo " + algoritmoSelector.getValue() + "\n");
+        salidaArea.appendText("-> Simulación iniciada con algoritmo " + algoritmoSelector.getValue() + "\n");
         salidaArea.appendText("═══════════════════════════════════════════════════\n\n");
     }
 
@@ -452,13 +452,13 @@ public class SimulatorApp extends Application {
         } else {
             List<Proceso> colaListos = simulator.getScheduler().getColaListos();
             sb.append("│ 📋 Cola de listos: ");
-            String readyQueue = colaListos.isEmpty() ? "-" : colaListos.toString();
+            String readyQueue = colaListos.isEmpty() ? "[]" : colaListos.toString();
             sb.append(String.format("%-30s", readyQueue.length() > 30 ? readyQueue.substring(0, 27) + "..." : readyQueue));
             sb.append(" │\n");
         }
 
         sb.append("├─────────────────────────────────────────────────┤\n");
-        sb.append("│ ✅ Completed: ");
+        sb.append("│ ✅ Completados: ");
         String completed = simulator.getScheduler().getProcesosTerminados().toString();
         sb.append(String.format("%-32s", completed.length() > 32 ? completed.substring(0, 29) + "..." : completed));
         sb.append(" │\n");
