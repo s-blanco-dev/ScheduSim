@@ -14,4 +14,5 @@ public interface Scheduler {
     public void tick();
     public List<Proceso> getColaListos();
     public List<Proceso> getProcesosTerminados();
+    public int getTick();
 }

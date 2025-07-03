@@ -75,4 +75,9 @@ public class SRTF implements Scheduler{
 
         return chicuelo;
     }
+
+    @Override
+    public int getTick() {
+        return 0;
+    }
 }

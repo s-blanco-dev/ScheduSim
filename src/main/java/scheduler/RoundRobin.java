@@ -84,4 +84,8 @@ public class RoundRobin implements Scheduler {
     public List<Proceso> getProcesosTerminados() {
         return procesosTerminados;
     }
+    @Override
+    public int getTick() {
+        return tick;
+    }
 }

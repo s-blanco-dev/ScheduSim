@@ -14,6 +14,22 @@ public class Simulator {
     private boolean isRunning = false;
     private List<String> ejecucionCpu = new ArrayList<>();
 
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    public Proceso getCurrent() {
+        return current;
+    }
+
+    public List<String> getEjecucionCpu() {
+        return ejecucionCpu;
+    }
+
+    public int getTick() {
+        return tick;
+    }
+
 
     public Simulator(Scheduler scheduler, List<Proceso> procesos) {
         this.scheduler = scheduler;
