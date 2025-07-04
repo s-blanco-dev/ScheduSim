@@ -38,7 +38,6 @@ public class SimulatorApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Create main container with glassmorphism effect
         VBox mainContainer = new VBox(20);
         mainContainer.setStyle("""
             -fx-background-color: rgba(30, 30, 30, 0.85);
@@ -49,14 +48,12 @@ public class SimulatorApp extends Application {
             -fx-padding: 30px;
         """);
 
-        // Add drop shadow effect
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.color(0, 0, 0, 0.5));
         dropShadow.setRadius(20);
         dropShadow.setOffsetY(10);
         mainContainer.setEffect(dropShadow);
 
-        // Title
         Label titleLabel = new Label("🖥 ScheduSim: Simulador de Scheduling");
         Label subtitle = new Label("Santiago Blanco, Martin Mujica - 2025");
         titleLabel.setStyle("""
@@ -73,21 +70,18 @@ public class SimulatorApp extends Application {
         """);
 
 
-        // Process input fields with modern styling
         pidField = createStyledTextField("Process ID", "📋");
         llegadaField = createStyledTextField("Llegada", "⏰");
         duracionField = createStyledTextField("Rafaga", "⏱");
         quantumField = createStyledTextField("Quantum", "⚡");
         quantumField.setVisible(false);
 
-        // Styled buttons
         agregarProcesoBtn = createStyledButton("➕ Agregar Proceso", "#4CAF50", "#45a049");
         agregarProcesoBtn.setOnAction(e -> agregarProceso());
 
         iniciarSimulacionBtn = createStyledButton("Iniciar simulación", "#2196F3", "#1976D2");
         iniciarSimulacionBtn.setOnAction(e -> iniciarSimulacion());
 
-        // Algorithm selector with modern styling
         algoritmoSelector = new ComboBox<>();
 
         algoritmoSelector.setButtonCell(new ListCell<>() {
@@ -118,7 +112,7 @@ public class SimulatorApp extends Application {
             }
         });
 
-        algoritmoSelector.getItems().addAll("MLFQ", "Round Robin", "SJF", "SRJF", "FCFS", "Priority");
+        algoritmoSelector.getItems().addAll("MLFQ", "Round Robin", "SJF", "SRJF", "FCFS");
         algoritmoSelector.setValue("FCFS");
         algoritmoSelector.setStyle("""
     -fx-background-color: rgba(50, 50, 50, 0.8);
@@ -135,12 +129,10 @@ public class SimulatorApp extends Application {
             quantumField.setVisible("Round Robin".equals(algoritmoSelector.getValue()));
         });
 
-        // Process input section
         HBox processInputSection = new HBox(15);
         processInputSection.setAlignment(Pos.CENTER);
         processInputSection.getChildren().addAll(pidField, llegadaField, duracionField, agregarProcesoBtn);
 
-        // Configuration section
         Label algorithmLabel = new Label("Algoritmo:");
         algorithmLabel.setStyle("""
             -fx-text-fill: #d79921;
@@ -152,7 +144,6 @@ public class SimulatorApp extends Application {
         configSection.setAlignment(Pos.CENTER);
         configSection.getChildren().addAll(algorithmLabel, algoritmoSelector, quantumField, iniciarSimulacionBtn);
 
-        // Control section
         avanzarBtn = createStyledButton("▶ Avanzar", "#FF9800", "#F57C00");
         avanzarBtn.setStyle(avanzarBtn.getStyle() + "-fx-font-size: 18px; -fx-pref-width: 200px; -fx-pref-height: 50px;");
         avanzarBtn.setDisable(true);
@@ -162,7 +153,6 @@ public class SimulatorApp extends Application {
         resetBtn.setStyle(resetBtn.getStyle() + "-fx-font-size: 18px; -fx-pref-width: 200px; -fx-pref-height: 50px;");
         resetBtn.setDisable(true);
 
-        // Status labels
         cpuLabel = new Label("CPU: IDLE");
         cpuLabel.setStyle("""
             -fx-font-size: 20px;
@@ -183,7 +173,7 @@ public class SimulatorApp extends Application {
             -fx-font-weight: bold;
             -fx-effect: dropshadow(gaussian, rgba(129, 199, 132, 0.3), 3, 0, 0, 1);
         """);
-        // Output area with terminal-like styling
+
         salidaArea = new TextArea();
         salidaArea.setEditable(false);
         salidaArea.setPrefRowCount(15);
@@ -200,7 +190,6 @@ public class SimulatorApp extends Application {
             -fx-control-inner-background: rgba(18, 18, 18, 0.9);
         """);
 
-        // Add glow effect to output area
         DropShadow terminalGlow = new DropShadow();
         terminalGlow.setColor(Color.color(0, 1, 0.255, 0.3));
         terminalGlow.setRadius(10);
@@ -272,8 +261,6 @@ public class SimulatorApp extends Application {
     """);
         });
 
-
-        // Arrange components in main container
         mainContainer.getChildren().addAll(
             titleLabel,
             subtitle,
@@ -290,10 +277,8 @@ public class SimulatorApp extends Application {
 
         mainContainer.setAlignment(Pos.CENTER);
 
-        // Root container with background
         StackPane root = new StackPane();
 
-        // Background setup
         BackgroundImage backgroundImage = new BackgroundImage(
                 new Image(getClass().getResource("/gui/fondum.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT,
@@ -328,7 +313,6 @@ public class SimulatorApp extends Application {
             -fx-padding: 0 15px;
         """);
 
-        // Add focus effects
         field.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
                 field.setStyle(field.getStyle().replace("rgba(255, 255, 255, 0.3)", "#64b5f6"));
@@ -355,7 +339,6 @@ public class SimulatorApp extends Application {
             -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 2);
         """, baseColor));
 
-        // Add hover effects
         button.setOnMouseEntered(e -> {
             button.setStyle(button.getStyle().replace(baseColor, hoverColor));
         });
@@ -386,7 +369,6 @@ public class SimulatorApp extends Application {
             llegadaField.clear();
             duracionField.clear();
 
-            // Add success feedback
             agregarProcesoBtn.setStyle(agregarProcesoBtn.getStyle().replace("#4CAF50", "#66BB6A"));
             new Thread(() -> {
                 try {
