@@ -151,27 +151,6 @@ import java.util.*;
         return new ArrayList<>(procesosTerminados);
     }
 
-   /* private Proceso algoritmoRR(int tick, int numCola) {
-        if (actual == null || actual.estaTerminado() || tablaQuantums.get(actual) >= QUANTUM_COLAS[numCola]) {
-            if (actual != null && !actual.estaTerminado()) {
-                colas.get(numCola).offer(actual);
-            }
-            actual = colas.get(numCola).poll();
-            tablaQuantums.put(actual, QUANTUM_COLAS[numCola]);
-        }
-        return actual;
-    }
-
-    private Proceso algoritmoFCFS(int tick, int numCola) {
-        if (actual == null || actual.estaTerminado()) {
-            if (actual != null && !actual.estaTerminado()) {
-                colas.get(numCola).offer(actual);
-            }
-            actual = colas.get(numCola).poll();
-        }
-        return actual;
-    }*/
-
      private void bajaleUnCambio(Proceso p) {
          int nuevoNivel = Math.min(nivelActual + 1, NUM_COLAS - 1);
          colas.get(nuevoNivel).offer(p);
